@@ -158,6 +158,11 @@ fn reset_position(app: AppHandle) {
     }
 }
 
+#[tauri::command]
+fn quit_app(app: AppHandle) {
+    app.exit(0);
+}
+
 fn setup_tray(app: &AppHandle) -> tauri::Result<()> {
     let toggle_item = MenuItem::with_id(app, "toggle", "Show / Hide Widget", true, None::<&str>)?;
     let refresh_item = MenuItem::with_id(app, "refresh", "Refresh Now", true, None::<&str>)?;
@@ -271,7 +276,8 @@ pub fn run() {
             refresh_usage,
             set_interactive_rect,
             set_theme,
-            reset_position
+            reset_position,
+            quit_app
         ])
         .setup(|app| {
             setup_tray(app.handle())?;

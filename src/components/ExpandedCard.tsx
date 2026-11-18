@@ -1,4 +1,4 @@
-import { ChevronDown, Layers, Moon, RefreshCw, Sun } from "lucide-react";
+import { ChevronDown, Layers, Moon, RefreshCw, Sun, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { PeriodStats, TimeframeKey, UsageSnapshot } from "../types/usage";
 import { SegmentedControl } from "./SegmentedControl";
@@ -14,6 +14,7 @@ interface ExpandedCardProps {
   onCollapse: () => void;
   onRefresh: () => void;
   onToggleTheme: () => void;
+  onQuit: () => void;
 }
 
 const PERIOD_SUBTITLES: Record<TimeframeKey, string> = {
@@ -30,6 +31,7 @@ export function ExpandedCard({
   onCollapse,
   onRefresh,
   onToggleTheme,
+  onQuit,
 }: ExpandedCardProps) {
   const period: PeriodStats = snapshot[timeframe];
   const isDark = snapshot.theme === "dark";
@@ -93,10 +95,19 @@ export function ExpandedCard({
           <button
             type="button"
             onClick={onCollapse}
-            title="Collapse widget"
+            title="Collapse to corner pill (or press Escape)"
             className="glass-btn flex h-[28px] w-[28px] cursor-pointer items-center justify-center rounded-full transition-colors"
           >
             <ChevronDown className="h-[14.5px] w-[14.5px]" strokeWidth={2.2} />
+          </button>
+
+          <button
+            type="button"
+            onClick={onQuit}
+            title="Close Token Glass"
+            className="glass-btn flex h-[28px] w-[28px] cursor-pointer items-center justify-center rounded-full transition-colors hover:text-red-500"
+          >
+            <X className="h-[13.5px] w-[13.5px]" strokeWidth={2.2} />
           </button>
         </div>
       </div>

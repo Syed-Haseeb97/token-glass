@@ -110,6 +110,12 @@ export function App() {
     }
   }, [snapshot.theme]);
 
+  const handleQuit = useCallback(() => {
+    if (isTauriRuntime()) {
+      invoke("quit_app").catch(() => {});
+    }
+  }, []);
+
   const target = expanded ? EXPANDED_SIZE : COLLAPSED_SIZE;
 
   return (
@@ -139,6 +145,7 @@ export function App() {
               onCollapse={() => setExpanded(false)}
               onRefresh={handleRefresh}
               onToggleTheme={handleToggleTheme}
+              onQuit={handleQuit}
             />
           ) : (
             <CollapsedPill
