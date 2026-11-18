@@ -1,0 +1,290 @@
+@import "tailwindcss";
+
+:root {
+  --font-sans: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Geist",
+    "Segoe UI", sans-serif;
+  --font-mono: "SF Mono", "Geist Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent !important;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   Apple iOS Liquid Glass — Light & Smoked Dark Material System
+   ========================================================================== */
+
+.ios-glass {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  transition: background 280ms ease, box-shadow 280ms ease, color 220ms ease;
+}
+
+/* Specular liquid rim sheen */
+.ios-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Subtle micro-frosted glass texture grain */
+.ios-glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* ---- Frosted Light Glass (Default) ---- */
+[data-glass="light"] .ios-glass {
+  color: #12151c;
+  background: linear-gradient(
+    158deg,
+    rgba(255, 255, 255, 0.86) 0%,
+    rgba(246, 248, 252, 0.74) 50%,
+    rgba(238, 241, 249, 0.80) 100%
+  );
+  box-shadow:
+    inset 0 1.5px 0 0 rgba(255, 255, 255, 0.98),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.55),
+    inset 1px 0 0 0 rgba(255, 255, 255, 0.7),
+    0 0 0 0.75px rgba(18, 24, 38, 0.11),
+    0 14px 32px -8px rgba(15, 23, 42, 0.18),
+    0 4px 12px -2px rgba(15, 23, 42, 0.08);
+}
+
+[data-glass="light"] .ios-glass::before {
+  background:
+    radial-gradient(
+      115% 60% at 15% 0%,
+      rgba(255, 255, 255, 0.85) 0%,
+      rgba(255, 255, 255, 0.22) 45%,
+      transparent 72%
+    ),
+    linear-gradient(
+      125deg,
+      rgba(255, 255, 255, 0.35) 0%,
+      transparent 38%,
+      rgba(255, 255, 255, 0.14) 100%
+    );
+}
+
+[data-glass="light"] .ios-glass::after {
+  opacity: 0.04;
+}
+
+/* Inner frosted panels & pills (Light) */
+[data-glass="light"] .glass-inset {
+  background: rgba(255, 255, 255, 0.54);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.9),
+    0 0 0 0.75px rgba(18, 24, 38, 0.075);
+}
+
+[data-glass="light"] .glass-track {
+  background: rgba(18, 24, 38, 0.065);
+  box-shadow: inset 0 1px 2px rgba(18, 24, 38, 0.06);
+}
+
+[data-glass="light"] .glass-thumb {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 249, 253, 0.9) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 1.5px 5px rgba(15, 23, 42, 0.10),
+    0 0 0 0.5px rgba(15, 23, 42, 0.07);
+}
+
+[data-glass="light"] .glass-btn {
+  background: rgba(255, 255, 255, 0.62);
+  color: #363d49;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    0 0 0 0.75px rgba(18, 24, 38, 0.09);
+}
+
+[data-glass="light"] .glass-btn:hover {
+  background: rgba(255, 255, 255, 0.88);
+  color: #12151c;
+}
+
+[data-glass="light"] .glass-chip {
+  background: rgba(255, 255, 255, 0.62);
+  color: #1d232e;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    0 0 0 0.75px rgba(18, 24, 38, 0.08);
+}
+
+[data-glass="light"] .text-ink {
+  color: #12151c;
+}
+
+[data-glass="light"] .text-muted {
+  color: #5b6372;
+}
+
+[data-glass="light"] .text-soft {
+  color: #7c8494;
+}
+
+[data-glass="light"] .glass-divider {
+  border-color: rgba(18, 24, 38, 0.08);
+}
+
+[data-glass="light"] .model-fill {
+  background: linear-gradient(90deg, rgba(0, 122, 255, 0.12), rgba(94, 92, 230, 0.08));
+}
+
+[data-glass="light"] .glass-bar-bg {
+  background: rgba(18, 24, 38, 0.09);
+}
+
+[data-glass="light"] .glass-error {
+  background: rgba(181, 58, 38, 0.11);
+  color: #9e2f1e;
+}
+
+/* ---- Smoked Dark Glass (Toggle) ---- */
+[data-glass="dark"] .ios-glass {
+  color: #f4f7fb;
+  background: linear-gradient(
+    158deg,
+    rgba(38, 43, 55, 0.82) 0%,
+    rgba(22, 25, 34, 0.78) 52%,
+    rgba(16, 19, 27, 0.85) 100%
+  );
+  box-shadow:
+    inset 0 1.25px 0 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.08),
+    inset 1px 0 0 0 rgba(255, 255, 255, 0.14),
+    0 0 0 0.75px rgba(255, 255, 255, 0.14),
+    0 18px 40px -8px rgba(0, 0, 0, 0.52),
+    0 6px 14px -4px rgba(0, 0, 0, 0.30);
+}
+
+[data-glass="dark"] .ios-glass::before {
+  background:
+    radial-gradient(
+      115% 60% at 15% 0%,
+      rgba(255, 255, 255, 0.20) 0%,
+      rgba(255, 255, 255, 0.05) 45%,
+      transparent 72%
+    ),
+    linear-gradient(
+      125deg,
+      rgba(255, 255, 255, 0.09) 0%,
+      transparent 42%,
+      rgba(130, 175, 255, 0.06) 100%
+    );
+}
+
+[data-glass="dark"] .ios-glass::after {
+  opacity: 0.045;
+}
+
+[data-glass="dark"] .glass-inset {
+  background: rgba(255, 255, 255, 0.065);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
+    0 0 0 0.75px rgba(255, 255, 255, 0.09);
+}
+
+[data-glass="dark"] .glass-track {
+  background: rgba(0, 0, 0, 0.28);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.32);
+}
+
+[data-glass="dark"] .glass-thumb {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.13) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 2px 6px rgba(0, 0, 0, 0.30),
+    0 0 0 0.5px rgba(255, 255, 255, 0.14);
+}
+
+[data-glass="dark"] .glass-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(244, 247, 251, 0.78);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 0 0 0.75px rgba(255, 255, 255, 0.10);
+}
+
+[data-glass="dark"] .glass-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+[data-glass="dark"] .glass-chip {
+  background: rgba(255, 255, 255, 0.08);
+  color: #eef2fa;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.13),
+    0 0 0 0.75px rgba(255, 255, 255, 0.10);
+}
+
+[data-glass="dark"] .text-ink {
+  color: #f4f7fb;
+}
+
+[data-glass="dark"] .text-muted {
+  color: rgba(232, 238, 250, 0.66);
+}
+
+[data-glass="dark"] .text-soft {
+  color: rgba(232, 238, 250, 0.45);
+}
+
+[data-glass="dark"] .glass-divider {
+  border-color: rgba(255, 255, 255, 0.09);
+}
+
+[data-glass="dark"] .model-fill {
+  background: linear-gradient(90deg, rgba(64, 156, 255, 0.20), rgba(125, 122, 255, 0.14));
+}
+
+[data-glass="dark"] .glass-bar-bg {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+[data-glass="dark"] .glass-error {
+  background: rgba(255, 105, 97, 0.16);
+  color: #ffb4ae;
+}
+
+/* Custom ultra-thin Apple scrollbar for model list */
+.apple-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.apple-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.apple-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(120, 130, 148, 0.26);
+}
