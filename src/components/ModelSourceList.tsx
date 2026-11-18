@@ -14,24 +14,18 @@ export function ModelSourceList({ models, sources }: ModelSourceListProps) {
     <div className="flex min-h-0 flex-1 flex-col gap-2.5">
       {/* Top Models */}
       <div className="flex min-h-0 flex-1 flex-col">
-        <div className="mb-1.5 flex items-center justify-between px-0.5">
-          <span
-            className="text-soft text-[10px] font-semibold uppercase tracking-[0.08em]"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
+        <div className="mb-1.5 flex items-center justify-between px-1">
+          <span className="text-soft text-[11px] font-semibold uppercase tracking-[0.05em]">
             Top Models
           </span>
-          <span
-            className="text-soft text-[10px] font-medium"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
+          <span className="text-soft text-[11.5px] font-medium tracking-[-0.01em]">
             {models.length} active
           </span>
         </div>
 
         <div className="apple-scroll flex flex-col gap-1.5 overflow-y-auto pr-0.5">
           {models.length === 0 ? (
-            <div className="glass-inset text-muted rounded-[13px] px-3 py-3 text-center text-[12px]">
+            <div className="glass-inset text-muted rounded-[14px] px-3 py-3 text-center text-[12px] font-medium">
               No token usage recorded in this period
             </div>
           ) : (
@@ -41,7 +35,7 @@ export function ModelSourceList({ models, sources }: ModelSourceListProps) {
                 <div
                   key={m.name}
                   title={`${m.name} · ${m.tokens.toLocaleString("en-US")} tokens`}
-                  className="glass-inset relative flex items-center justify-between overflow-hidden rounded-[12px] px-3 py-[7px]"
+                  className="glass-inset relative flex items-center justify-between overflow-hidden rounded-[14px] px-3.5 py-[8px]"
                 >
                   <motion.div
                     initial={false}
@@ -49,13 +43,10 @@ export function ModelSourceList({ models, sources }: ModelSourceListProps) {
                     transition={{ type: "spring", stiffness: 280, damping: 30 }}
                     className="model-fill pointer-events-none absolute inset-y-0 left-0"
                   />
-                  <span className="text-ink relative z-10 truncate pr-2 text-[12px] font-medium tracking-[-0.01em]">
+                  <span className="text-ink relative z-10 truncate pr-2 text-[13px] font-medium tracking-[-0.015em]">
                     {formatModelName(m.name)}
                   </span>
-                  <span
-                    className="text-ink tabular-nums relative z-10 shrink-0 text-[11.5px] font-semibold"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
+                  <span className="text-ink tabular-nums relative z-10 shrink-0 text-[13px] font-semibold tracking-[-0.02em]">
                     {formatCompactTokens(m.tokens)}
                   </span>
                 </div>
@@ -68,11 +59,8 @@ export function ModelSourceList({ models, sources }: ModelSourceListProps) {
       {/* Active Tools */}
       {sources.length > 0 && (
         <div>
-          <div className="mb-1.5 flex items-center justify-between px-0.5">
-            <span
-              className="text-soft text-[10px] font-semibold uppercase tracking-[0.08em]"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
+          <div className="mb-1.5 flex items-center justify-between px-1">
+            <span className="text-soft text-[11px] font-semibold uppercase tracking-[0.05em]">
               Tools
             </span>
           </div>
@@ -81,13 +69,10 @@ export function ModelSourceList({ models, sources }: ModelSourceListProps) {
               <div
                 key={src.id}
                 title={`${src.label} · ${src.tokens.toLocaleString("en-US")} tokens (${formatUsd(src.costUsd)})`}
-                className="glass-chip inline-flex items-center gap-1.5 rounded-full px-2.5 py-[4px] text-[11px] font-medium"
+                className="glass-chip inline-flex items-center gap-1.5 rounded-full px-3 py-[4.5px] text-[11.5px] font-medium tracking-[-0.01em]"
               >
                 <span>{src.label}</span>
-                <span
-                  className="text-muted tabular-nums text-[10.5px] font-semibold"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
+                <span className="text-muted tabular-nums text-[11px] font-semibold tracking-[-0.01em]">
                   {formatCompactTokens(src.tokens)}
                 </span>
               </div>

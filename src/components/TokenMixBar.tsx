@@ -31,8 +31,8 @@ export function TokenMixBar({
       label: "Output",
       value: outputTokens,
       pct: outputPct,
-      barColor: "#24A16A",
-      swatch: "#24A16A",
+      barColor: "#30D158",
+      swatch: "#30D158",
     },
     {
       key: "cache",
@@ -45,8 +45,8 @@ export function TokenMixBar({
   ];
 
   return (
-    <div className="glass-inset rounded-[16px] px-3.5 py-2.5">
-      <div className="glass-bar-bg mb-2 flex h-[6px] w-full overflow-hidden rounded-full">
+    <div className="glass-inset rounded-[20px] px-4 py-3">
+      <div className="glass-bar-bg mb-2.5 flex h-[7px] w-full overflow-hidden rounded-full">
         {segments.map((seg) =>
           seg.value > 0 ? (
             <motion.div
@@ -66,17 +66,14 @@ export function TokenMixBar({
           <div key={seg.key} className="flex flex-col">
             <div className="flex items-center gap-1.5">
               <span
-                className="inline-block h-[6px] w-[6px] rounded-[2px]"
+                className="inline-block h-[6px] w-[6px] rounded-full"
                 style={{ backgroundColor: seg.swatch }}
               />
-              <span className="text-muted text-[10.5px] font-medium tracking-[0.01em]">
+              <span className="text-muted text-[11px] font-medium tracking-[-0.01em]">
                 {seg.label}
               </span>
             </div>
-            <span
-              className="text-ink tabular-nums mt-0.5 text-[12px] font-semibold"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
+            <span className="text-ink tabular-nums mt-0.5 text-[13px] font-semibold tracking-[-0.02em]">
               {formatCompactTokens(seg.value)}
             </span>
           </div>

@@ -6,14 +6,14 @@ import { CollapsedPill } from "./components/CollapsedPill";
 import { ExpandedCard } from "./components/ExpandedCard";
 import { EMPTY_SNAPSHOT, type TimeframeKey, type UsageSnapshot } from "./types/usage";
 
-const COLLAPSED_SIZE = { width: 196, height: 56, borderRadius: 22 };
-const EXPANDED_SIZE = { width: 368, height: 490, borderRadius: 28 };
+const COLLAPSED_SIZE = { width: 196, height: 56, borderRadius: 28 };
+const EXPANDED_SIZE = { width: 372, height: 494, borderRadius: 34 };
 
 const APPLE_SPRING = {
   type: "spring" as const,
-  stiffness: 420,
-  damping: 32,
-  mass: 0.82,
+  stiffness: 400,
+  damping: 34,
+  mass: 0.75,
 };
 
 function isTauriRuntime(): boolean {

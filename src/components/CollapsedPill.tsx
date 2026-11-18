@@ -26,36 +26,30 @@ export function CollapsedPill({
       onClick={onExpand}
       whileHover={{ scale: 1.015 }}
       whileTap={{ scale: 0.965 }}
-      transition={{ type: "spring", stiffness: 520, damping: 30 }}
+      transition={{ type: "spring", stiffness: 450, damping: 30 }}
       title={`Today: ${formatExactTokens(todayTokens)} tokens (${formatUsd(todayCostUsd)} est.) — Click to expand`}
       className="relative z-10 flex h-full w-full cursor-pointer items-center justify-between gap-2.5 px-3.5 text-left outline-none"
     >
       <div className="flex items-center gap-2.5">
         <div className="glass-inset flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-[11px]">
-          <Layers className="text-ink h-[15px] w-[15px]" strokeWidth={2.1} />
+          <Layers className="text-ink h-[15px] w-[15px]" strokeWidth={2.2} />
         </div>
         <div className="flex flex-col leading-none">
-          <span
-            className="text-soft text-[9.5px] font-semibold uppercase tracking-[0.09em]"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
+          <span className="text-soft text-[10px] font-semibold uppercase tracking-[0.05em]">
             Today
           </span>
           <div className="mt-[3px] flex items-baseline gap-1">
             {showInitialSync ? (
-              <span className="text-muted text-[13.5px] font-medium tracking-[-0.01em]">
+              <span className="text-muted text-[13px] font-medium tracking-[-0.01em]">
                 Syncing…
               </span>
             ) : (
               <>
                 <RollingNumber
                   value={todayTokens}
-                  className="text-ink tabular-nums text-[17px] font-semibold tracking-[-0.025em]"
+                  className="text-ink tabular-nums text-[17px] font-bold tracking-[-0.03em]"
                 />
-                <span
-                  className="text-muted text-[10px] font-medium"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
+                <span className="text-muted text-[11px] font-medium tracking-[-0.01em]">
                   tok
                 </span>
               </>

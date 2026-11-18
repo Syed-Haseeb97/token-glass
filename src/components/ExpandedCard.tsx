@@ -20,7 +20,7 @@ interface ExpandedCardProps {
 const PERIOD_SUBTITLES: Record<TimeframeKey, string> = {
   today: "Today's usage",
   week: "Last 7 days",
-  month: "This calendar month",
+  month: "This month",
   allTime: "All-time tracked",
 };
 
@@ -47,18 +47,15 @@ export function ExpandedCard({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="glass-inset flex h-[30px] w-[30px] items-center justify-center rounded-[10px]">
-            <Layers className="text-ink h-[14px] w-[14px]" strokeWidth={2.1} />
+          <div className="glass-inset flex h-[32px] w-[32px] items-center justify-center rounded-[11px]">
+            <Layers className="text-ink h-[15px] w-[15px]" strokeWidth={2.2} />
           </div>
           <div className="flex flex-col leading-tight">
-            <span className="text-ink text-[13.5px] font-semibold tracking-[-0.02em]">
+            <span className="text-ink text-[14px] font-semibold tracking-[-0.02em]">
               Token Glass
             </span>
-            <span
-              className="text-soft text-[10px] font-medium"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              {snapshot.syncing ? "Syncing local logs" : formatRelativeTime(snapshot.lastUpdated)}
+            <span className="text-soft text-[11px] font-normal tracking-[-0.01em]">
+              {snapshot.syncing ? "Syncing local logs…" : formatRelativeTime(snapshot.lastUpdated)}
             </span>
           </div>
         </div>
@@ -105,7 +102,7 @@ export function ExpandedCard({
             type="button"
             onClick={onQuit}
             title="Close Token Glass"
-            className="glass-btn flex h-[28px] w-[28px] cursor-pointer items-center justify-center rounded-full transition-colors hover:text-red-500"
+            className="glass-btn flex h-[28px] w-[28px] cursor-pointer items-center justify-center rounded-full transition-colors hover:text-red-400"
           >
             <X className="h-[13.5px] w-[13.5px]" strokeWidth={2.2} />
           </button>
@@ -117,17 +114,14 @@ export function ExpandedCard({
 
       {/* Hero Metric Card */}
       <div
-        className="glass-inset rounded-[18px] px-4 py-3"
+        className="glass-inset rounded-[20px] px-4 py-3.5"
         title={`${formatExactTokens(period.totalTokens)} exact tokens`}
       >
         <div className="flex items-center justify-between">
-          <span className="text-muted text-[11.5px] font-medium">
+          <span className="text-muted text-[12px] font-medium tracking-[-0.01em]">
             {PERIOD_SUBTITLES[timeframe]}
           </span>
-          <span
-            className="glass-chip tabular-nums rounded-full px-2.5 py-[3px] text-[11px] font-semibold"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
+          <span className="glass-chip tabular-nums rounded-full px-2.5 py-[3px] text-[11px] font-medium tracking-[-0.01em]">
             {formatUsd(period.estimatedCostUsd)} est.
           </span>
         </div>
@@ -136,21 +130,15 @@ export function ExpandedCard({
           <div className="flex items-baseline gap-1.5">
             <RollingNumber
               value={period.totalTokens}
-              className="text-ink tabular-nums text-[30px] leading-none font-bold tracking-[-0.035em]"
+              className="text-ink tabular-nums text-[32px] leading-tight font-bold tracking-[-0.04em]"
             />
-            <span
-              className="text-muted text-[12px] font-medium"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
+            <span className="text-muted text-[13px] font-medium tracking-[-0.01em]">
               tokens
             </span>
           </div>
 
           {timeframe !== "today" && (
-            <span
-              className="text-soft tabular-nums text-[10.5px] font-medium"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
+            <span className="text-soft tabular-nums text-[11px] font-medium tracking-[-0.01em]">
               {period.activeDays} {period.activeDays === 1 ? "day" : "days"}
             </span>
           )}
@@ -179,7 +167,7 @@ export function ExpandedCard({
       </AnimatePresence>
 
       {snapshot.error && (
-        <div className="glass-error rounded-[10px] px-2.5 py-1.5 text-[11px]">
+        <div className="glass-error rounded-[12px] px-3 py-2 text-[11px] font-medium">
           {snapshot.error}
         </div>
       )}

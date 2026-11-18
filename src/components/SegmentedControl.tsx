@@ -16,7 +16,7 @@ interface SegmentedControlProps {
 export function SegmentedControl({ value, onChange }: SegmentedControlProps) {
   return (
     <div
-      className="glass-track relative grid grid-cols-4 rounded-[13px] p-[3px]"
+      className="glass-track relative grid grid-cols-4 rounded-[14px] p-[3px]"
       role="tablist"
       aria-label="Usage timeframe"
     >
@@ -29,8 +29,10 @@ export function SegmentedControl({ value, onChange }: SegmentedControlProps) {
             role="tab"
             aria-selected={active}
             onClick={() => onChange(tab.key)}
-            className={`relative z-10 flex h-[28px] cursor-pointer items-center justify-center rounded-[10px] text-[12px] font-medium tracking-[-0.01em] transition-colors duration-200 ${
-              active ? "text-ink font-semibold" : "text-muted hover:text-ink"
+            className={`relative z-10 flex h-[29px] cursor-pointer items-center justify-center rounded-[11px] text-[12px] transition-colors duration-150 ${
+              active
+                ? "text-ink font-semibold tracking-[-0.015em]"
+                : "text-muted hover:text-ink font-medium tracking-[-0.01em]"
             }`}
           >
             {active && (
@@ -38,11 +40,11 @@ export function SegmentedControl({ value, onChange }: SegmentedControlProps) {
                 layoutId="ios-segment-thumb"
                 transition={{
                   type: "spring",
-                  stiffness: 500,
+                  stiffness: 480,
                   damping: 36,
-                  mass: 0.7,
+                  mass: 0.65,
                 }}
-                className="glass-thumb absolute inset-0 -z-10 rounded-[10px]"
+                className="glass-thumb absolute inset-0 -z-10 rounded-[11px]"
               />
             )}
             <span>{tab.label}</span>
