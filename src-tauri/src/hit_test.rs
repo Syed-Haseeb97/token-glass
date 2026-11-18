@@ -12,11 +12,10 @@ pub struct InteractiveRect {
 
 impl Default for InteractiveRect {
     fn default() -> Self {
-        // Default collapsed pill region at bottom-right of 408x532 window
         Self {
-            x: 192.0,
+            x: 190.0,
             y: 456.0,
-            width: 196.0,
+            width: 198.0,
             height: 56.0,
         }
     }

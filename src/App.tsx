@@ -6,14 +6,14 @@ import { CollapsedPill } from "./components/CollapsedPill";
 import { ExpandedCard } from "./components/ExpandedCard";
 import { EMPTY_SNAPSHOT, type TimeframeKey, type UsageSnapshot } from "./types/usage";
 
-const COLLAPSED_SIZE = { width: 196, height: 56, borderRadius: 28 };
-const EXPANDED_SIZE = { width: 372, height: 494, borderRadius: 34 };
+const COLLAPSED_SIZE = { width: 198, height: 56, borderRadius: 28 };
+const EXPANDED_SIZE = { width: 374, height: 498, borderRadius: 34 };
 
 const APPLE_SPRING = {
   type: "spring" as const,
-  stiffness: 400,
-  damping: 34,
-  mass: 0.75,
+  stiffness: 440,
+  damping: 36,
+  mass: 0.7,
 };
 
 function isTauriRuntime(): boolean {
@@ -135,27 +135,43 @@ export function App() {
         onUpdate={() => syncInteractiveRect()}
         className="ios-glass origin-bottom-right"
       >
-        <AnimatePresence mode="wait" initial={false}>
+        <AnimatePresence mode="popLayout" initial={false}>
           {expanded ? (
-            <ExpandedCard
+            <motion.div
               key="expanded"
-              snapshot={snapshot}
-              timeframe={timeframe}
-              onTimeframeChange={setTimeframe}
-              onCollapse={() => setExpanded(false)}
-              onRefresh={handleRefresh}
-              onToggleTheme={handleToggleTheme}
-              onQuit={handleQuit}
-            />
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.12, ease: [0.25, 1, 0.5, 1] }}
+              className="h-full w-full"
+            >
+              <ExpandedCard
+                snapshot={snapshot}
+                timeframe={timeframe}
+                onTimeframeChange={setTimeframe}
+                onCollapse={() => setExpanded(false)}
+                onRefresh={handleRefresh}
+                onToggleTheme={handleToggleTheme}
+                onQuit={handleQuit}
+              />
+            </motion.div>
           ) : (
-            <CollapsedPill
+            <motion.div
               key="collapsed"
-              todayTokens={snapshot.today.totalTokens}
-              todayCostUsd={snapshot.today.estimatedCostUsd}
-              syncing={snapshot.syncing}
-              hasSynced={snapshot.lastUpdated !== null}
-              onExpand={() => setExpanded(true)}
-            />
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.92 }}
+              transition={{ duration: 0.12, ease: [0.25, 1, 0.5, 1] }}
+              className="h-full w-full"
+            >
+              <CollapsedPill
+                todayTokens={snapshot.today.totalTokens}
+                todayCostUsd={snapshot.today.estimatedCostUsd}
+                syncing={snapshot.syncing}
+                hasSynced={snapshot.lastUpdated !== null}
+                onExpand={() => setExpanded(true)}
+              />
+            </motion.div>
           )}
         </AnimatePresence>
       </motion.div>

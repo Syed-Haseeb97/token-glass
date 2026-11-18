@@ -263,14 +263,11 @@ body,
   color: #ff453a;
 }
 
-/* Custom ultra-thin Apple scrollbar */
-.apple-scroll::-webkit-scrollbar {
-  width: 4px;
+/* Clean scrollbar suppression for widget panels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
-.apple-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-.apple-scroll::-webkit-scrollbar-thumb {
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.20);
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
