@@ -8,3 +8,6 @@ src-tauri/gen/
 .env
 .env.*
 *.tmp
+
+out.txt
+err.txt
