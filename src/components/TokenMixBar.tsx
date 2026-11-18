@@ -39,8 +39,8 @@ export function TokenMixBar({
       label: "Cache",
       value: cacheTokens,
       pct: cachePct,
-      barColor: "#6E6BF0",
-      swatch: "#6E6BF0",
+      barColor: "#8E8E93",
+      swatch: "#8E8E93",
     },
   ];
 

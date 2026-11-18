@@ -171,101 +171,101 @@ body,
 
 /* ---- Smoked Dark Glass (Toggle) ---- */
 [data-glass="dark"] .ios-glass {
-  color: #f4f7fb;
+  color: #f2f2f7;
   background: linear-gradient(
-    158deg,
-    rgba(38, 43, 55, 0.82) 0%,
-    rgba(22, 25, 34, 0.78) 52%,
-    rgba(16, 19, 27, 0.85) 100%
+    165deg,
+    rgba(26, 26, 28, 0.68) 0%,
+    rgba(18, 18, 20, 0.60) 50%,
+    rgba(12, 12, 14, 0.72) 100%
   );
   box-shadow:
-    inset 0 1.25px 0 0 rgba(255, 255, 255, 0.28),
-    inset 0 -1px 0 0 rgba(255, 255, 255, 0.08),
-    inset 1px 0 0 0 rgba(255, 255, 255, 0.14),
-    0 0 0 0.75px rgba(255, 255, 255, 0.14),
-    0 18px 40px -8px rgba(0, 0, 0, 0.52),
-    0 6px 14px -4px rgba(0, 0, 0, 0.30);
+    inset 0 1.25px 0 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.05),
+    inset 1px 0 0 0 rgba(255, 255, 255, 0.10),
+    0 0 0 0.75px rgba(255, 255, 255, 0.12),
+    0 18px 40px -8px rgba(0, 0, 0, 0.58),
+    0 6px 14px -4px rgba(0, 0, 0, 0.35);
 }
 
 [data-glass="dark"] .ios-glass::before {
   background:
     radial-gradient(
       115% 60% at 15% 0%,
-      rgba(255, 255, 255, 0.20) 0%,
-      rgba(255, 255, 255, 0.05) 45%,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.03) 45%,
       transparent 72%
     ),
     linear-gradient(
       125deg,
-      rgba(255, 255, 255, 0.09) 0%,
+      rgba(255, 255, 255, 0.08) 0%,
       transparent 42%,
-      rgba(130, 175, 255, 0.06) 100%
+      rgba(255, 255, 255, 0.03) 100%
     );
 }
 
 [data-glass="dark"] .ios-glass::after {
-  opacity: 0.045;
+  opacity: 0.035;
 }
 
 [data-glass="dark"] .glass-inset {
-  background: rgba(255, 255, 255, 0.065);
+  background: rgba(255, 255, 255, 0.055);
   box-shadow:
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
-    0 0 0 0.75px rgba(255, 255, 255, 0.09);
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.10),
+    0 0 0 0.75px rgba(255, 255, 255, 0.07);
 }
 
 [data-glass="dark"] .glass-track {
-  background: rgba(0, 0, 0, 0.28);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.32);
+  background: rgba(0, 0, 0, 0.36);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.40);
 }
 
 [data-glass="dark"] .glass-thumb {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.13) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.12) 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    0 2px 6px rgba(0, 0, 0, 0.30),
+    0 2px 6px rgba(0, 0, 0, 0.32),
     0 0 0 0.5px rgba(255, 255, 255, 0.14);
 }
 
 [data-glass="dark"] .glass-btn {
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(244, 247, 251, 0.78);
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(242, 242, 247, 0.78);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    0 0 0 0.75px rgba(255, 255, 255, 0.10);
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 0 0.75px rgba(255, 255, 255, 0.08);
 }
 
 [data-glass="dark"] .glass-btn:hover {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.14);
   color: #ffffff;
 }
 
 [data-glass="dark"] .glass-chip {
-  background: rgba(255, 255, 255, 0.08);
-  color: #eef2fa;
+  background: rgba(255, 255, 255, 0.07);
+  color: #f2f2f7;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.13),
-    0 0 0 0.75px rgba(255, 255, 255, 0.10);
+    inset 0 1px 0 rgba(255, 255, 255, 0.11),
+    0 0 0 0.75px rgba(255, 255, 255, 0.08);
 }
 
 [data-glass="dark"] .text-ink {
-  color: #f4f7fb;
+  color: #f2f2f7;
 }
 
 [data-glass="dark"] .text-muted {
-  color: rgba(232, 238, 250, 0.66);
+  color: rgba(235, 235, 245, 0.62);
 }
 
 [data-glass="dark"] .text-soft {
-  color: rgba(232, 238, 250, 0.45);
+  color: rgba(235, 235, 245, 0.40);
 }
 
 [data-glass="dark"] .glass-divider {
-  border-color: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 [data-glass="dark"] .model-fill {
-  background: linear-gradient(90deg, rgba(64, 156, 255, 0.20), rgba(125, 122, 255, 0.14));
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.05));
 }
 
 [data-glass="dark"] .glass-bar-bg {
