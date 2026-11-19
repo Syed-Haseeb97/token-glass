@@ -21,13 +21,22 @@ export function useSmoothScroll<T extends HTMLElement>(deps: any = null) {
     const getMaxScroll = () => Math.max(0, el.scrollHeight - el.clientHeight);
 
     const update = () => {
-      const diff = targetScroll - currentScroll;
+      const scrollDiff = targetScroll - currentScroll;
 
-      // Elastic rubber-band spring back to zero
-      overshoot += (0 - overshoot) * 0.16;
+      // 1. Smoothly interpolate scrollTop towards targetScroll
+      if (Math.abs(scrollDiff) > 0.25) {
+        currentScroll += scrollDiff * 0.22;
+        el.scrollTop = currentScroll;
+      } else {
+        currentScroll = targetScroll;
+        el.scrollTop = currentScroll;
+      }
+
+      // 2. Crisp, fast Apple spring-back for rubber-band overshoot (snappy ~180ms rebound)
+      overshoot += (0 - overshoot) * 0.32;
 
       if (contentEl) {
-        if (Math.abs(overshoot) > 0.2) {
+        if (Math.abs(overshoot) > 0.3) {
           contentEl.style.transform = `translateY(${overshoot.toFixed(2)}px)`;
         } else {
           contentEl.style.transform = "";
@@ -35,17 +44,8 @@ export function useSmoothScroll<T extends HTMLElement>(deps: any = null) {
         }
       }
 
-      // Smooth scroll interpolation
-      if (Math.abs(diff) > 0.25) {
-        currentScroll += diff * 0.18;
-        el.scrollTop = currentScroll;
-      } else {
-        currentScroll = targetScroll;
-        el.scrollTop = currentScroll;
-      }
-
-      // Continue loop while animating or springing back
-      if (Math.abs(diff) > 0.25 || Math.abs(overshoot) > 0.2) {
+      // Keep running while animating scroll or rebounding rubber-band
+      if (Math.abs(scrollDiff) > 0.25 || Math.abs(overshoot) > 0.3) {
         animFrame = requestAnimationFrame(update);
       } else {
         isRunning = false;
@@ -66,41 +66,42 @@ export function useSmoothScroll<T extends HTMLElement>(deps: any = null) {
       const rawDelta = e.deltaY;
       const dir = Math.sign(rawDelta);
 
-      // Velocity acceleration: rapid successive wheel spins accelerate dynamically up to 3.8x
-      if (dt < 140 && dir === lastDirection) {
-        velocityMultiplier = Math.min(velocityMultiplier * 1.35 + 0.35, 3.8);
-      } else if (dt > 260) {
+      // Velocity acceleration: rapid successive wheel spins accelerate dynamically up to 3.5x
+      if (dt < 130 && dir === lastDirection) {
+        velocityMultiplier = Math.min(velocityMultiplier * 1.3 + 0.35, 3.5);
+      } else if (dt > 240) {
         velocityMultiplier = 1.0;
       }
       lastDirection = dir;
 
-      let delta = rawDelta;
-      if (e.deltaMode === 1) {
-        delta *= 32;
-      } else if (e.deltaMode === 2) {
-        delta *= el.clientHeight * 0.7;
-      } else {
-        // Scale with velocity: fast spinning covers ground rapidly; slow spinning glides gently
-        delta = dir * Math.min(Math.abs(rawDelta), 100) * 0.55 * velocityMultiplier;
-      }
+      // Responsive scaled impulse
+      let delta = dir * Math.min(Math.abs(rawDelta), 100) * 0.55 * velocityMultiplier;
+      if (e.deltaMode === 1) delta = rawDelta * 28;
 
-      const nextTarget = targetScroll + delta;
-
-      // Apple rubber-band overscroll resistance when hitting edges
-      if (nextTarget < 0) {
-        targetScroll = 0;
-        currentScroll = 0;
-        el.scrollTop = 0;
-        const resistance = 1 - Math.min(1, Math.abs(overshoot) / 36);
-        overshoot = Math.min(32, overshoot - delta * 0.38 * resistance);
-      } else if (nextTarget > maxScroll) {
-        targetScroll = maxScroll;
-        currentScroll = maxScroll;
-        el.scrollTop = maxScroll;
-        const resistance = 1 - Math.min(1, Math.abs(overshoot) / 36);
-        overshoot = Math.max(-32, overshoot - delta * 0.38 * resistance);
+      // Check boundary rubber-banding vs smooth scrolling
+      if (targetScroll <= 0 && delta < 0) {
+        // Already at top and scrolling UP: stretch downward with rubber resistance
+        const resistance = 1 - Math.min(1, Math.abs(overshoot) / 28);
+        overshoot = Math.min(24, overshoot - delta * 0.25 * resistance);
+      } else if (targetScroll >= maxScroll && delta > 0) {
+        // Already at bottom and scrolling DOWN: stretch upward with rubber resistance
+        const resistance = 1 - Math.min(1, Math.abs(overshoot) / 28);
+        overshoot = Math.max(-24, overshoot - delta * 0.25 * resistance);
       } else {
-        targetScroll = nextTarget;
+        // Normal scroll region
+        const nextTarget = targetScroll + delta;
+
+        if (nextTarget < 0) {
+          const excess = -nextTarget;
+          targetScroll = 0;
+          overshoot = Math.min(18, overshoot + excess * 0.18);
+        } else if (nextTarget > maxScroll) {
+          const excess = nextTarget - maxScroll;
+          targetScroll = maxScroll;
+          overshoot = Math.max(-18, overshoot - excess * 0.18);
+        } else {
+          targetScroll = nextTarget;
+        }
       }
 
       if (!isRunning) {
