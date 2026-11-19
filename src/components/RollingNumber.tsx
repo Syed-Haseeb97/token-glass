@@ -10,7 +10,7 @@ interface RollingNumberProps {
 export function RollingNumber({
   value,
   className,
-  duration = 580,
+  duration = 450,
 }: RollingNumberProps) {
   // Synchronous initial value so there is zero blank-frame delay
   const [display, setDisplay] = useState(() => formatCompactTokens(value));
@@ -40,7 +40,7 @@ export function RollingNumber({
       const elapsed = now - startTime;
       const progress = Math.min(1, elapsed / duration);
 
-      // Apple fluid exponential ease-out for rapid initial roll and smooth deceleration
+      // Apple fluid exponential ease-out for rapid initial roll and crisp snap into final value
       const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
       const current = Math.round(startVal + (targetVal - startVal) * ease);
 

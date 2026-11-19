@@ -11,10 +11,10 @@ export function ModelSourceList({ models, sources }: ModelSourceListProps) {
   const maxModel = models[0]?.tokens || 1;
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2">
       {/* Top Models */}
       <div className="flex flex-col">
-        <div className="mb-1.5 flex items-center justify-between px-1">
+        <div className="mb-1 flex items-center justify-between px-1">
           <span className="text-soft text-[10.5px] font-semibold uppercase tracking-[0.05em]">
             Top Models
           </span>
@@ -35,7 +35,7 @@ export function ModelSourceList({ models, sources }: ModelSourceListProps) {
                 <div
                   key={m.name}
                   title={`${m.name} · ${m.tokens.toLocaleString("en-US")} tokens`}
-                  className="glass-inset relative flex items-center justify-between overflow-hidden rounded-[13px] px-3.5 py-[7px]"
+                  className="glass-inset relative flex items-center justify-between overflow-hidden rounded-[12px] px-3.5 py-[5.5px]"
                 >
                   <motion.div
                     initial={false}
@@ -43,10 +43,10 @@ export function ModelSourceList({ models, sources }: ModelSourceListProps) {
                     transition={{ type: "spring", stiffness: 300, damping: 32 }}
                     className="model-fill pointer-events-none absolute inset-y-0 left-0"
                   />
-                  <span className="text-ink relative z-10 min-w-0 max-w-[210px] truncate text-[12.5px] font-medium tracking-[-0.015em]">
+                  <span className="text-ink relative z-10 min-w-0 max-w-[210px] truncate text-[12px] font-medium tracking-[-0.015em]">
                     {formatModelName(m.name)}
                   </span>
-                  <span className="text-ink tabular-nums relative z-10 shrink-0 text-[12.5px] font-semibold tracking-[-0.015em]">
+                  <span className="text-ink tabular-nums relative z-10 shrink-0 text-[12px] font-semibold tracking-[-0.015em]">
                     {formatCompactTokens(m.tokens)}
                   </span>
                 </div>
@@ -58,8 +58,8 @@ export function ModelSourceList({ models, sources }: ModelSourceListProps) {
 
       {/* Active Tools */}
       {sources.length > 0 && (
-        <div className="flex flex-col pb-1.5">
-          <div className="mb-1.5 flex items-center justify-between px-1">
+        <div className="flex flex-col pb-1">
+          <div className="mb-1 flex items-center justify-between px-1">
             <span className="text-soft text-[10.5px] font-semibold uppercase tracking-[0.05em]">
               Tools
             </span>
@@ -69,7 +69,7 @@ export function ModelSourceList({ models, sources }: ModelSourceListProps) {
               <div
                 key={src.id}
                 title={`${src.label} · ${src.tokens.toLocaleString("en-US")} tokens (${formatUsd(src.costUsd)})`}
-                className="glass-chip inline-flex items-center gap-1.5 rounded-full px-2.5 py-[4px] text-[11px] font-medium tracking-[-0.01em]"
+                className="glass-chip inline-flex items-center gap-1.5 rounded-full px-2.5 py-[3.5px] text-[11px] font-medium tracking-[-0.01em]"
               >
                 <span>{src.label}</span>
                 <span className="text-muted tabular-nums text-[10.5px] font-semibold tracking-[-0.01em]">

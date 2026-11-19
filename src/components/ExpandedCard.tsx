@@ -39,9 +39,7 @@ function ScrollableList({
       ref={scrollRef}
       className="apple-scroll flex min-h-0 flex-1 flex-col pt-0.5"
     >
-      <div className="apple-scroll-content flex flex-col will-change-transform">
-        {children}
-      </div>
+      {children}
     </div>
   );
 }
@@ -59,9 +57,9 @@ export function ExpandedCard({
   const isDark = snapshot.theme === "dark";
 
   return (
-    <div className="relative z-10 flex h-full w-full flex-col gap-2.5 p-4">
+    <div className="relative z-10 flex h-full w-full flex-col gap-2 p-3.5">
       {/* Top group: Header + Tabs */}
-      <div className="flex flex-col gap-2.5">
+      <div className="flex flex-col gap-2">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
@@ -132,7 +130,7 @@ export function ExpandedCard({
       </div>
 
       {/* Middle group: Hero metric + TokenMixBar */}
-      <div className="flex flex-col gap-2.5">
+      <div className="flex flex-col gap-2">
         {/* Hero Metric Card */}
         <div
           className="glass-inset rounded-[20px] px-4 py-3"

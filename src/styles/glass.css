@@ -53,11 +53,6 @@ body,
   height: 0px !important;
 }
 
-.apple-scroll-content {
-  transform-origin: center center;
-  transition: transform 0s;
-}
-
 .tabular-nums {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1, "cv05" 1;

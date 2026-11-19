@@ -7,11 +7,8 @@ export function useSmoothScroll<T extends HTMLElement>(deps: any = null) {
     const el = ref.current;
     if (!el) return;
 
-    const contentEl = el.firstElementChild as HTMLElement | null;
-
     let targetScroll = el.scrollTop;
     let currentScroll = el.scrollTop;
-    let overshoot = 0;
     let velocityMultiplier = 1.0;
     let lastWheelTime = 0;
     let lastDirection = 0;
@@ -20,41 +17,26 @@ export function useSmoothScroll<T extends HTMLElement>(deps: any = null) {
 
     const getMaxScroll = () => Math.max(0, el.scrollHeight - el.clientHeight);
 
+    const clamp = (val: number, max: number) => Math.max(0, Math.min(val, max));
+
     const update = () => {
       const scrollDiff = targetScroll - currentScroll;
 
-      // 1. Smoothly interpolate scrollTop towards targetScroll
+      // Pure fluid momentum interpolation without rubber-band glitches
       if (Math.abs(scrollDiff) > 0.25) {
         currentScroll += scrollDiff * 0.22;
         el.scrollTop = currentScroll;
+        animFrame = requestAnimationFrame(update);
       } else {
         currentScroll = targetScroll;
         el.scrollTop = currentScroll;
-      }
-
-      // 2. Crisp, fast Apple spring-back for rubber-band overshoot (snappy ~180ms rebound)
-      overshoot += (0 - overshoot) * 0.32;
-
-      if (contentEl) {
-        if (Math.abs(overshoot) > 0.3) {
-          contentEl.style.transform = `translateY(${overshoot.toFixed(2)}px)`;
-        } else {
-          contentEl.style.transform = "";
-          overshoot = 0;
-        }
-      }
-
-      // Keep running while animating scroll or rebounding rubber-band
-      if (Math.abs(scrollDiff) > 0.25 || Math.abs(overshoot) > 0.3) {
-        animFrame = requestAnimationFrame(update);
-      } else {
         isRunning = false;
       }
     };
 
     const onWheel = (e: WheelEvent) => {
       const maxScroll = getMaxScroll();
-      if (maxScroll <= 0 && Math.abs(e.deltaY) < 1) return;
+      if (maxScroll <= 0) return;
 
       e.preventDefault();
       e.stopPropagation();
@@ -74,35 +56,10 @@ export function useSmoothScroll<T extends HTMLElement>(deps: any = null) {
       }
       lastDirection = dir;
 
-      // Responsive scaled impulse
       let delta = dir * Math.min(Math.abs(rawDelta), 100) * 0.55 * velocityMultiplier;
       if (e.deltaMode === 1) delta = rawDelta * 28;
 
-      // Check boundary rubber-banding vs smooth scrolling
-      if (targetScroll <= 0 && delta < 0) {
-        // Already at top and scrolling UP: stretch downward with rubber resistance
-        const resistance = 1 - Math.min(1, Math.abs(overshoot) / 28);
-        overshoot = Math.min(24, overshoot - delta * 0.25 * resistance);
-      } else if (targetScroll >= maxScroll && delta > 0) {
-        // Already at bottom and scrolling DOWN: stretch upward with rubber resistance
-        const resistance = 1 - Math.min(1, Math.abs(overshoot) / 28);
-        overshoot = Math.max(-24, overshoot - delta * 0.25 * resistance);
-      } else {
-        // Normal scroll region
-        const nextTarget = targetScroll + delta;
-
-        if (nextTarget < 0) {
-          const excess = -nextTarget;
-          targetScroll = 0;
-          overshoot = Math.min(18, overshoot + excess * 0.18);
-        } else if (nextTarget > maxScroll) {
-          const excess = nextTarget - maxScroll;
-          targetScroll = maxScroll;
-          overshoot = Math.max(-18, overshoot - excess * 0.18);
-        } else {
-          targetScroll = nextTarget;
-        }
-      }
+      targetScroll = clamp(targetScroll + delta, maxScroll);
 
       if (!isRunning) {
         isRunning = true;
@@ -124,9 +81,6 @@ export function useSmoothScroll<T extends HTMLElement>(deps: any = null) {
       el.removeEventListener("wheel", onWheel);
       el.removeEventListener("scroll", onScroll);
       cancelAnimationFrame(animFrame);
-      if (contentEl) {
-        contentEl.style.transform = "";
-      }
     };
   }, [deps]);
 

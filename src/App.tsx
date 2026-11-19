@@ -7,7 +7,7 @@ import { ExpandedCard } from "./components/ExpandedCard";
 import { EMPTY_SNAPSHOT, type TimeframeKey, type UsageSnapshot } from "./types/usage";
 
 const COLLAPSED_SIZE = { width: 198, height: 56, borderRadius: 28 };
-const EXPANDED_SIZE = { width: 374, height: 514, borderRadius: 32 };
+const EXPANDED_SIZE = { width: 374, height: 518, borderRadius: 32 };
 
 const APPLE_SPRING = {
   type: "spring" as const,
@@ -163,7 +163,7 @@ export function App() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15, ease: [0.25, 1, 0.5, 1] }}
-              className="absolute inset-0 h-[514px] w-[374px]"
+              className="absolute inset-0 h-[518px] w-[374px]"
             >
               <ExpandedCard
                 snapshot={snapshot}
