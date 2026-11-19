@@ -27,7 +27,7 @@ export function CollapsedPill({
       whileHover={{ scale: 1.015 }}
       whileTap={{ scale: 0.965 }}
       transition={{ type: "spring", stiffness: 450, damping: 30 }}
-      title={`Today: ${formatExactTokens(todayTokens)} tokens (${formatUsd(todayCostUsd)} est.) — Click to expand`}
+      title={`Today: ${formatExactTokens(todayTokens)} input + output tokens (${formatUsd(todayCostUsd)} est.) — Click to expand`}
       className="relative z-10 flex h-full w-full cursor-pointer items-center justify-between gap-2.5 px-3.5 text-left outline-none"
     >
       <div className="flex items-center gap-2.5">

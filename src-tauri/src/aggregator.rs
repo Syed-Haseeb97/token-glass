@@ -25,6 +25,7 @@ pub struct SourceStat {
 #[serde(rename_all = "camelCase")]
 pub struct PeriodStats {
     pub total_tokens: u64,
+    pub active_tokens: u64,
     pub input_tokens: u64,
     pub output_tokens: u64,
     pub cache_tokens: u64,
@@ -131,6 +132,7 @@ where
 
     PeriodStats {
         total_tokens,
+        active_tokens: input_tokens.saturating_add(output_tokens),
         input_tokens,
         output_tokens,
         cache_tokens,
@@ -249,6 +251,7 @@ mod tests {
 
         let snap = build_snapshot(&cache, false, None);
         assert_eq!(snap.today.total_tokens, 1000);
+        assert_eq!(snap.today.active_tokens, 300);
         assert_eq!(snap.week.total_tokens, 1500);
         assert_eq!(snap.all_time.total_tokens, 4000);
         assert_eq!(snap.all_time.active_days, 3);

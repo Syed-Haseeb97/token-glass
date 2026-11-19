@@ -133,17 +133,17 @@ export function App() {
         }}
         transition={APPLE_SPRING}
         onUpdate={() => syncInteractiveRect()}
-        className="ios-glass origin-bottom-right"
+        className="ios-glass relative overflow-hidden origin-bottom-right"
       >
-        <AnimatePresence mode="popLayout" initial={false}>
+        <AnimatePresence initial={false}>
           {expanded ? (
             <motion.div
               key="expanded"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              transition={{ duration: 0.12, ease: [0.25, 1, 0.5, 1] }}
-              className="h-full w-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15, ease: [0.25, 1, 0.5, 1] }}
+              className="absolute inset-0 h-[498px] w-[374px]"
             >
               <ExpandedCard
                 snapshot={snapshot}
@@ -158,14 +158,14 @@ export function App() {
           ) : (
             <motion.div
               key="collapsed"
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.92 }}
-              transition={{ duration: 0.12, ease: [0.25, 1, 0.5, 1] }}
-              className="h-full w-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15, ease: [0.25, 1, 0.5, 1] }}
+              className="absolute bottom-0 right-0 h-[56px] w-[198px]"
             >
               <CollapsedPill
-                todayTokens={snapshot.today.totalTokens}
+                todayTokens={snapshot.today.activeTokens}
                 todayCostUsd={snapshot.today.estimatedCostUsd}
                 syncing={snapshot.syncing}
                 hasSynced={snapshot.lastUpdated !== null}

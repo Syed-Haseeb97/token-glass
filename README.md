@@ -77,7 +77,7 @@ token-glass/
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (v18+) or [Bun](https://bun.sh/)
+- [Node.js](https://nodejs.org/) (v18+) or [Bun](https://bun.sh/) (only to install dependencies and build; the finished app does not need Node)
 - [Rust](https://www.rust-lang.org/) (stable)
 - Windows 10/11 with WebView2 runtime (pre-installed on modern Windows)
 
@@ -100,7 +100,14 @@ npm run tauri dev
 ```powershell
 # Build standalone release executable
 npm run tauri build -- --no-bundle
+
+# Copy the ccusage engine next to the exe so it works on any machine
+npm run bundle-ccusage
 ```
+
+The app looks for `ccusage.exe` next to `token-glass.exe`, then in the project `node_modules`, then on `PATH`. Set `TOKEN_GLASS_CCUSAGE` to point at a specific binary. The usage cache is stored in `%LOCALAPPDATA%\\TokenGlass\\cache.json` (override with `TOKEN_GLASS_DATA_DIR`).
+
+The headline number is input + output tokens. Cache reads are far larger and are shown separately (hover the number for the exact split).
 
 The optimized standalone binary will be generated at:
 `src-tauri/target/release/token-glass.exe`

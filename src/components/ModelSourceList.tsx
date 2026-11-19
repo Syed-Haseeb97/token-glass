@@ -23,7 +23,7 @@ export function ModelSourceList({ models, sources }: ModelSourceListProps) {
           </span>
         </div>
 
-        <div className="no-scrollbar flex flex-col gap-1.5 overflow-y-auto">
+        <div className="flex flex-col gap-1.5">
           {models.length === 0 ? (
             <div className="glass-inset text-muted rounded-[14px] px-3 py-3 text-center text-[12px] font-medium">
               No token usage recorded in this period

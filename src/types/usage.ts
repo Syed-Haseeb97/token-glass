@@ -16,6 +16,7 @@ export interface SourceStat {
 
 export interface PeriodStats {
   totalTokens: number;
+  activeTokens: number;
   inputTokens: number;
   outputTokens: number;
   cacheTokens: number;
@@ -39,6 +40,7 @@ export interface UsageSnapshot {
 
 export const EMPTY_PERIOD: PeriodStats = {
   totalTokens: 0,
+  activeTokens: 0,
   inputTokens: 0,
   outputTokens: 0,
   cacheTokens: 0,

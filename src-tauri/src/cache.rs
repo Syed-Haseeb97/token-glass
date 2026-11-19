@@ -44,41 +44,36 @@ impl Default for UsageCache {
 }
 
 pub fn cache_file_path() -> PathBuf {
-    // Keep cache cleanly on Drive D inside the project/app data directory.
-    if let Ok(manifest_dir) = std::env::var("CARGO_MANIFEST_DIR") {
-        let root = PathBuf::from(manifest_dir)
-            .parent()
-            .map(PathBuf::from)
-            .unwrap_or_else(|| PathBuf::from("D:\\projects\\token-glass"));
-        return root.join("data").join("cache.json");
+    if let Some(custom) = std::env::var_os("TOKEN_GLASS_DATA_DIR") {
+        return PathBuf::from(custom).join("cache.json");
     }
+    let base = std::env::var_os("LOCALAPPDATA")
+        .or_else(|| std::env::var_os("APPDATA"))
+        .map(PathBuf::from)
+        .or_else(|| {
+            std::env::var_os("HOME").map(|h| PathBuf::from(h).join(".local").join("share"))
+        })
+        .unwrap_or_else(std::env::temp_dir);
+    base.join("TokenGlass").join("cache.json")
+}
 
-    if let Ok(exe) = std::env::current_exe() {
-        if let Some(dir) = exe.parent() {
-            // When running inside target/debug or target/release during development,
-            // resolve up to the project root data directory.
-            let candidate = dir
-                .parent()
-                .and_then(|p| p.parent())
-                .and_then(|p| p.parent())
-                .map(|p| p.join("data"));
-            if let Some(ref c) = candidate {
-                if c.parent().map(|p| p.join("package.json").exists()).unwrap_or(false) {
-                    return c.join("cache.json");
-                }
-            }
-            return dir.join("data").join("cache.json");
-        }
-    }
-
-    PathBuf::from("D:\\projects\\token-glass\\data\\cache.json")
+/// Old builds kept the cache in <project>/data/cache.json. Read it once if present
+/// so existing history is not lost; it is rewritten to the new location on next save.
+fn legacy_cache_path() -> Option<PathBuf> {
+    let exe = std::env::current_exe().ok()?;
+    let root = exe.parent()?.parent()?.parent()?.parent()?;
+    let candidate = root.join("data").join("cache.json");
+    candidate.is_file().then_some(candidate)
 }
 
 pub fn load_cache() -> UsageCache {
     let path = cache_file_path();
-    match fs::read_to_string(&path) {
-        Ok(content) => serde_json::from_str(&content).unwrap_or_default(),
-        Err(_) => UsageCache::default(),
+    let content = fs::read_to_string(&path).ok().or_else(|| {
+        legacy_cache_path().and_then(|p| fs::read_to_string(p).ok())
+    });
+    match content {
+        Some(c) => serde_json::from_str(&c).unwrap_or_default(),
+        None => UsageCache::default(),
     }
 }
 

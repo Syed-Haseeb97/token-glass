@@ -114,7 +114,7 @@ export function ExpandedCard({
         {/* Hero Metric Card */}
         <div
           className="glass-inset rounded-[20px] px-4 py-3"
-          title={`${formatExactTokens(period.totalTokens)} exact tokens`}
+          title={`${formatExactTokens(period.activeTokens)} input + output tokens · ${formatExactTokens(period.cacheTokens)} cached · ${formatExactTokens(period.totalTokens)} total`}
         >
           <div className="flex items-center justify-between">
             <span className="text-muted text-[12px] font-medium tracking-[-0.01em]">
@@ -128,7 +128,7 @@ export function ExpandedCard({
           <div className="mt-0.5 flex items-baseline justify-between gap-2">
             <div className="flex items-baseline gap-1.5">
               <RollingNumber
-                value={period.totalTokens}
+                value={period.activeTokens}
                 className="text-ink tabular-nums text-[30px] leading-tight font-bold tracking-[-0.04em]"
               />
               <span className="text-muted text-[12.5px] font-medium tracking-[-0.01em]">

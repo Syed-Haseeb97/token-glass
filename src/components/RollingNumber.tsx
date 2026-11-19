@@ -1,5 +1,4 @@
-import { useEffect, useRef } from "react";
-import { motion, useSpring, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { formatCompactTokens } from "../utils/format";
 
 interface RollingNumberProps {
@@ -8,24 +7,17 @@ interface RollingNumberProps {
 }
 
 export function RollingNumber({ value, className }: RollingNumberProps) {
-  const isFirst = useRef(true);
-  const spring = useSpring(value, {
-    stiffness: 280,
-    damping: 32,
-    mass: 0.65,
-  });
+  // Always render the formatted value immediately on initial mount so there is zero blank-frame delay
+  const [display, setDisplay] = useState(() => formatCompactTokens(value));
+  const prevValue = useRef(value);
 
   useEffect(() => {
-    if (isFirst.current) {
-      isFirst.current = false;
-      return;
+    if (prevValue.current !== value) {
+      prevValue.current = value;
+      setDisplay(formatCompactTokens(value));
     }
-    spring.set(value);
-  }, [spring, value]);
+  }, [value]);
 
-  const display = useTransform(spring, (latest) =>
-    formatCompactTokens(Math.max(0, latest))
-  );
-
-  return <motion.span className={className}>{display}</motion.span>;
+  return <span className={className}>{display}</span>;
 }
+

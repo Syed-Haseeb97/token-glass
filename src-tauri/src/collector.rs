@@ -38,42 +38,42 @@ pub const PRIORITY_SOURCES: &[&str] = &[
 #[cfg(windows)]
 const CREATE_NO_WINDOW: u32 = 0x0800_0000;
 
+const CCUSAGE_PKG_BIN: &[&str] = &["node_modules", "@ccusage", "ccusage-win32-x64", "bin", "ccusage.exe"];
+
+fn project_ccusage(root: &std::path::Path) -> PathBuf {
+    CCUSAGE_PKG_BIN.iter().fold(root.to_path_buf(), |p, part| p.join(part))
+}
+
+/// Finds ccusage.exe. Order: env override, next to the app exe, the project's
+/// node_modules (dev / `tauri dev`), anything on PATH, then the uni-social-tokens runtime.
 pub fn resolve_ccusage_bin() -> Option<PathBuf> {
     let mut candidates: Vec<PathBuf> = Vec::new();
 
-    if let Ok(manifest_dir) = std::env::var("CARGO_MANIFEST_DIR") {
-        if let Some(root) = PathBuf::from(manifest_dir).parent() {
-            candidates.push(
-                root.join("node_modules")
-                    .join("@ccusage")
-                    .join("ccusage-win32-x64")
-                    .join("bin")
-                    .join("ccusage.exe"),
-            );
-        }
+    if let Some(custom) = std::env::var_os("TOKEN_GLASS_CCUSAGE") {
+        candidates.push(PathBuf::from(custom));
     }
 
     if let Ok(exe) = std::env::current_exe() {
         if let Some(dir) = exe.parent() {
             candidates.push(dir.join("ccusage.exe"));
+            // target/release -> target -> src-tauri -> project root
             if let Some(project_root) = dir.parent().and_then(|p| p.parent()).and_then(|p| p.parent()) {
-                candidates.push(
-                    project_root
-                        .join("node_modules")
-                        .join("@ccusage")
-                        .join("ccusage-win32-x64")
-                        .join("bin")
-                        .join("ccusage.exe"),
-                );
+                candidates.push(project_ccusage(project_root));
             }
         }
     }
 
-    candidates.push(PathBuf::from(
-        "D:\\projects\\token-glass\\node_modules\\@ccusage\\ccusage-win32-x64\\bin\\ccusage.exe",
-    ));
+    if let Ok(cwd) = std::env::current_dir() {
+        candidates.push(project_ccusage(&cwd));
+    }
 
-    // Also inspect any installed runtime versions as fallback (read-only)
+    if let Some(path_var) = std::env::var_os("PATH") {
+        for dir in std::env::split_paths(&path_var) {
+            candidates.push(dir.join("ccusage.exe"));
+        }
+    }
+
+    // Read-only fallback: runtime installed by uni-social-tokens
     if let Ok(profile) = std::env::var("USERPROFILE") {
         let runtime_dir = PathBuf::from(&profile)
             .join(".config")
@@ -87,24 +87,12 @@ pub fn resolve_ccusage_bin() -> Option<PathBuf> {
             versions.sort();
             versions.reverse();
             for v in versions {
-                candidates.push(
-                    v.join("node_modules")
-                        .join("@ccusage")
-                        .join("ccusage-win32-x64")
-                        .join("bin")
-                        .join("ccusage.exe"),
-                );
+                candidates.push(project_ccusage(&v));
             }
         }
     }
 
-    for candidate in candidates {
-        if candidate.is_file() {
-            return Some(candidate);
-        }
-    }
-
-    None
+    candidates.into_iter().find(|c| c.is_file())
 }
 
 fn val_u64(v: &Value, key: &str) -> u64 {
@@ -294,7 +282,7 @@ where
     F: FnMut(Vec<DailyRecord>),
 {
     let bin = resolve_ccusage_bin().ok_or_else(|| {
-        "ccusage binary not found. Run `npm install` in D:\\projects\\token-glass.".to_string()
+        "ccusage.exe not found. Put it next to token-glass.exe (npm run bundle-ccusage), add it to PATH, or set TOKEN_GLASS_CCUSAGE.".to_string()
     })?;
 
     let timeout_secs = if since.is_some() { 90 } else { 240 };

@@ -1,3 +1,7 @@
 Set WshShell = CreateObject("WScript.Shell")
-WshShell.CurrentDirectory = "D:\projects\token-glass"
-WshShell.Run """D:\projects\token-glass\src-tauri\target\release\token-glass.exe""", 0, False
+Set fso = CreateObject("Scripting.FileSystemObject")
+root = fso.GetParentFolderName(WScript.ScriptFullName)
+exe = root & "\src-tauri\target\release\token-glass.exe"
+If Not fso.FileExists(exe) Then exe = root & "\token-glass.exe"
+WshShell.CurrentDirectory = root
+WshShell.Run """" & exe & """", 0, False
