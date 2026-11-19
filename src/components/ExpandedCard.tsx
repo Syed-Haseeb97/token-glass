@@ -6,6 +6,7 @@ import { RollingNumber } from "./RollingNumber";
 import { TokenMixBar } from "./TokenMixBar";
 import { ModelSourceList } from "./ModelSourceList";
 import { formatExactTokens, formatRelativeTime, formatUsd } from "../utils/format";
+import { useSmoothScroll } from "../hooks/useSmoothScroll";
 
 interface ExpandedCardProps {
   snapshot: UsageSnapshot;
@@ -23,6 +24,25 @@ const PERIOD_SUBTITLES: Record<TimeframeKey, string> = {
   month: "This month",
   allTime: "All-time tracked",
 };
+
+function ScrollableList({
+  timeframe,
+  children,
+}: {
+  timeframe: TimeframeKey;
+  children: React.ReactNode;
+}) {
+  const scrollRef = useSmoothScroll<HTMLDivElement>(timeframe);
+
+  return (
+    <div
+      ref={scrollRef}
+      className="apple-scroll flex min-h-0 flex-1 flex-col pt-0.5"
+    >
+      {children}
+    </div>
+  );
+}
 
 export function ExpandedCard({
   snapshot,
@@ -160,9 +180,11 @@ export function ExpandedCard({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -3 }}
           transition={{ duration: 0.14, ease: [0.22, 1, 0.36, 1] }}
-          className="apple-scroll flex min-h-0 flex-1 flex-col pt-0.5"
+          className="flex min-h-0 flex-1 flex-col overflow-hidden"
         >
-          <ModelSourceList models={period.topModels} sources={period.sources} />
+          <ScrollableList timeframe={timeframe}>
+            <ModelSourceList models={period.topModels} sources={period.sources} />
+          </ScrollableList>
         </motion.div>
       </AnimatePresence>
 
