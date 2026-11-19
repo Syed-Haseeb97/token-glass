@@ -39,7 +39,9 @@ function ScrollableList({
       ref={scrollRef}
       className="apple-scroll flex min-h-0 flex-1 flex-col pt-0.5"
     >
-      {children}
+      <div className="apple-scroll-content flex flex-col will-change-transform">
+        {children}
+      </div>
     </div>
   );
 }
