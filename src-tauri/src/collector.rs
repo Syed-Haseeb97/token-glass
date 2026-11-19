@@ -56,6 +56,7 @@ pub fn resolve_ccusage_bin() -> Option<PathBuf> {
     if let Ok(exe) = std::env::current_exe() {
         if let Some(dir) = exe.parent() {
             candidates.push(dir.join("ccusage.exe"));
+            candidates.push(dir.join("resources").join("ccusage.exe"));
             // target/release -> target -> src-tauri -> project root
             if let Some(project_root) = dir.parent().and_then(|p| p.parent()).and_then(|p| p.parent()) {
                 candidates.push(project_ccusage(project_root));
