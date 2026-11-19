@@ -12,10 +12,10 @@ export function TokenMixBar({
   outputTokens,
   cacheTokens,
 }: TokenMixBarProps) {
-  // Cache reads dwarf everything else, so the bar only compares input vs output.
-  const sum = Math.max(1, inputTokens + outputTokens);
+  const sum = Math.max(1, inputTokens + outputTokens + cacheTokens);
   const inputPct = (inputTokens / sum) * 100;
   const outputPct = (outputTokens / sum) * 100;
+  const cachePct = (cacheTokens / sum) * 100;
 
   const segments = [
     {
@@ -38,9 +38,9 @@ export function TokenMixBar({
       key: "cache",
       label: "Cache",
       value: cacheTokens,
-      pct: 0,
-      barColor: "#8E8E93",
-      swatch: "#8E8E93",
+      pct: cachePct,
+      barColor: "#5E5CE6",
+      swatch: "#5E5CE6",
     },
   ];
 
@@ -48,7 +48,7 @@ export function TokenMixBar({
     <div className="glass-inset rounded-[20px] px-4 py-3">
       <div className="glass-bar-bg mb-2.5 flex h-[7px] w-full overflow-hidden rounded-full">
         {segments.map((seg) =>
-          seg.value > 0 && seg.key !== "cache" ? (
+          seg.value > 0 ? (
             <motion.div
               key={seg.key}
               initial={false}
