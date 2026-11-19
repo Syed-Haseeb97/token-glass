@@ -11,9 +11,9 @@ export function ModelSourceList({ models, sources }: ModelSourceListProps) {
   const maxModel = models[0]?.tokens || 1;
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-2.5">
+    <div className="flex flex-col gap-2.5">
       {/* Top Models */}
-      <div className="flex min-h-0 flex-1 flex-col">
+      <div className="flex flex-col">
         <div className="mb-1.5 flex items-center justify-between px-1">
           <span className="text-soft text-[10.5px] font-semibold uppercase tracking-[0.05em]">
             Top Models
@@ -29,7 +29,7 @@ export function ModelSourceList({ models, sources }: ModelSourceListProps) {
               No token usage recorded in this period
             </div>
           ) : (
-            models.slice(0, 4).map((m) => {
+            models.slice(0, 3).map((m) => {
               const fillPct = Math.max(6, Math.min(100, (m.tokens / maxModel) * 100));
               return (
                 <div
@@ -58,14 +58,14 @@ export function ModelSourceList({ models, sources }: ModelSourceListProps) {
 
       {/* Active Tools */}
       {sources.length > 0 && (
-        <div>
+        <div className="flex flex-col">
           <div className="mb-1.5 flex items-center justify-between px-1">
             <span className="text-soft text-[10.5px] font-semibold uppercase tracking-[0.05em]">
               Tools
             </span>
           </div>
           <div className="flex flex-wrap gap-1.5">
-            {sources.slice(0, 5).map((src) => (
+            {sources.slice(0, 4).map((src) => (
               <div
                 key={src.id}
                 title={`${src.label} · ${src.tokens.toLocaleString("en-US")} tokens (${formatUsd(src.costUsd)})`}

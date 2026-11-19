@@ -96,15 +96,31 @@ pub fn position_bottom_right(window: &WebviewWindow) {
     }
 }
 
+#[cfg(windows)]
+fn is_left_mouse_down() -> bool {
+    #[link(name = "user32")]
+    extern "system" {
+        fn GetAsyncKeyState(v_key: i32) -> i16;
+    }
+    const VK_LBUTTON: i32 = 0x01;
+    unsafe { (GetAsyncKeyState(VK_LBUTTON) as u16 & 0x8000) != 0 }
+}
+
+#[cfg(not(windows))]
+fn is_left_mouse_down() -> bool {
+    false
+}
+
 pub fn start_click_through_watcher(
     window: WebviewWindow,
     rect_state: Arc<Mutex<InteractiveRect>>,
 ) {
     tauri::async_runtime::spawn(async move {
         let mut last_ignored: Option<bool> = None;
+        let mut was_outside_mouse_down = false;
 
         loop {
-            tokio::time::sleep(Duration::from_millis(45)).await;
+            tokio::time::sleep(Duration::from_millis(30)).await;
 
             if !window.is_visible().unwrap_or(false) {
                 continue;
@@ -130,6 +146,18 @@ pub fn start_click_through_watcher(
 
             let inside =
                 (cx as f64) >= min_x && (cx as f64) <= max_x && (cy as f64) >= min_y && (cy as f64) <= max_y;
+
+            // If the card is expanded (width > 250px) and user clicks outside, request collapse
+            if rect.width > 250.0 && !inside {
+                let mouse_down = is_left_mouse_down();
+                if mouse_down && !was_outside_mouse_down {
+                    use tauri::Emitter;
+                    let _ = window.emit("collapse-requested", ());
+                }
+                was_outside_mouse_down = mouse_down;
+            } else {
+                was_outside_mouse_down = false;
+            }
 
             let should_ignore = !inside;
             if last_ignored != Some(should_ignore) {

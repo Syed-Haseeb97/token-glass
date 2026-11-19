@@ -7,7 +7,7 @@ import { ExpandedCard } from "./components/ExpandedCard";
 import { EMPTY_SNAPSHOT, type TimeframeKey, type UsageSnapshot } from "./types/usage";
 
 const COLLAPSED_SIZE = { width: 198, height: 56, borderRadius: 28 };
-const EXPANDED_SIZE = { width: 374, height: 498, borderRadius: 34 };
+const EXPANDED_SIZE = { width: 374, height: 504, borderRadius: 32 };
 
 const APPLE_SPRING = {
   type: "spring" as const,
@@ -41,7 +41,8 @@ export function App() {
   useEffect(() => {
     if (!isTauriRuntime()) return;
 
-    let unlisten: (() => void) | undefined;
+    let unlistenUsage: (() => void) | undefined;
+    let unlistenCollapse: (() => void) | undefined;
 
     invoke<UsageSnapshot>("get_usage_snapshot")
       .then((snap) => setSnapshot(snap))
@@ -51,13 +52,32 @@ export function App() {
       setSnapshot(event.payload);
     })
       .then((fn) => {
-        unlisten = fn;
+        unlistenUsage = fn;
+      })
+      .catch(() => {});
+
+    // Minimize when clicking anywhere outside
+    listen("collapse-requested", () => {
+      setExpanded(false);
+    })
+      .then((fn) => {
+        unlistenCollapse = fn;
       })
       .catch(() => {});
 
     return () => {
-      unlisten?.();
+      unlistenUsage?.();
+      unlistenCollapse?.();
     };
+  }, []);
+
+  // Minimize on window blur (switching apps or clicking outside)
+  useEffect(() => {
+    const onBlur = () => {
+      setExpanded(false);
+    };
+    window.addEventListener("blur", onBlur);
+    return () => window.removeEventListener("blur", onBlur);
   }, []);
 
   // Keep click-through hit-box tightly synced with the morphing glass rectangle
@@ -143,7 +163,7 @@ export function App() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15, ease: [0.25, 1, 0.5, 1] }}
-              className="absolute inset-0 h-[498px] w-[374px]"
+              className="absolute inset-0 h-[504px] w-[374px]"
             >
               <ExpandedCard
                 snapshot={snapshot}

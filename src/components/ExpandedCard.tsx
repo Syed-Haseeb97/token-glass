@@ -37,7 +37,7 @@ export function ExpandedCard({
   const isDark = snapshot.theme === "dark";
 
   return (
-    <div className="relative z-10 flex h-full w-full flex-col justify-between p-4">
+    <div className="relative z-10 flex h-full w-full flex-col gap-2.5 p-4">
       {/* Top group: Header + Tabs */}
       <div className="flex flex-col gap-2.5">
         {/* Header */}
@@ -160,7 +160,7 @@ export function ExpandedCard({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -3 }}
           transition={{ duration: 0.14, ease: [0.22, 1, 0.36, 1] }}
-          className="flex min-h-0 flex-1 flex-col pt-1"
+          className="flex flex-col pt-0.5"
         >
           <ModelSourceList models={period.topModels} sources={period.sources} />
         </motion.div>
