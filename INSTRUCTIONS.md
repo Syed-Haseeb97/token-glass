@@ -345,8 +345,8 @@ Eliminates ugly Windows scrollbar thumbs across all webview elements:
       {
         "label": "main",
         "title": "Token Glass",
-        "width": 408,
-        "height": 532,
+        "width": 420,
+        "height": 560,
         "resizable": false,
         "fullscreen": false,
         "decorations": false,
