@@ -13,8 +13,8 @@ pub struct InteractiveRect {
 impl Default for InteractiveRect {
     fn default() -> Self {
         Self {
-            x: 190.0,
-            y: 456.0,
+            x: 202.0,
+            y: 484.0,
             width: 198.0,
             height: 56.0,
         }
@@ -75,7 +75,7 @@ pub fn position_bottom_right(window: &WebviewWindow) {
     let scale = window.scale_factor().unwrap_or(1.0);
     let win_size = window
         .outer_size()
-        .unwrap_or(tauri::PhysicalSize::new((408.0 * scale) as u32, (532.0 * scale) as u32));
+        .unwrap_or(tauri::PhysicalSize::new((420.0 * scale) as u32, (560.0 * scale) as u32));
 
     let edge_gap = (6.0 * scale).round() as i32;
 
